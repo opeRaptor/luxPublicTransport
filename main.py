@@ -185,10 +185,11 @@ try:
         #system.sleep(60000)
         #deepsleep.start_sleeping(6000)
 except:
-    print("Bruh, exceptions, we need a reboot")
-    print("Bruh, exceptions, we need a reboot")
-    print("Bruh, exceptions, we need a reboot")
-    print("Bruh, exceptions, we need a reboot")
+    print("################################################################################################################################################################")
+    print("################################################################################################################################################################")
+    print("Something bad happened (blame lack of RAM), exceptions, we need a reboot")
+    print("################################################################################################################################################################")
+    print("################################################################################################################################################################")
     system.reboot()
 
 ################################################################################
@@ -196,90 +197,12 @@ except:
 #import machine
 #machine.nvs_setstr("system", "default_app", "luxPublicTransport")
 
+################################################################################
+#install app from store after pushing to Hatchery
+#Hatchery link: https://badge.team/projects/luxpublictransport/
 
-import wifi, woezel,system
-
-wifi.connect()
-wifi.wait()
-woezel.install("luxPublicTransport")
-system.reboot()
-
-#ugfx.clear(ugfx.BLACK);
-#ugfx.area(0, 0, 128, 296, ugfx.BLACK)
-
-#ugfx.string(0, 0, "BUS TIME", "Roboto_Black22", ugfx.BLACK)
-#ugfx.area(0, 0, 128, 25, ugfx.WHITE)
-#ugfx.flush(ugfx.LUT_FULL);
-
-print("number of returned cat. if more than 13, late bus",len(jsonData['Departure'][0]))
-        if len(jsonData['Departure'][0]) >= 14:
-            departureTime = jsonData['Departure'][0]['rtTime'] #real time accounts for delays
-            print("Showing real time as this bus is late:",departureTime, "instead of:", jsonData['Departure'][0]['time'])
-        else:
-            departureTime = jsonData['Departure'][0]['time'] #scheduled times
-            print("Showing scheduled time as this bus is on time:",departureTime[x])
-        
-       
-        if departureTime != firstTile: #check if the data has changed since last API request, if not, no need to update the display
-            firstTile = departureTime
-
-            refreshCounter = refreshCounter + 1
-            if refreshCounter > 10: #full deep refresh after 10 normal prints
-                refreshCounter = 0
-                print("Full screen clear")
-                ugfx.clear(ugfx.WHITE)
-                ugfx.flush(ugfx.LUT_FULL)
-
-            #ugfx.string_box(0, -8, 128, 30, "BUS TIME", "Roboto_Black22", ugfx.BLACK, ugfx.justifyCenter)
-
-            if len(jsonData) >= 4: #checks that there is returned data other than the 3 entry in the JSON footer
-                numOfDepartures = len(jsonData['Departure'])
-                print("Number of JSON return: ",numOfDepartures)
-                if numOfDepartures >= 4:
-                    numOfDepartures = 4 #cap the number of departure to be printed to 4 as that is the maximum you can fit on screen
-            else:
-                print("Number of JSON return: ",0)
-                numOfDepartures=0
-
-            print("Output:")
-            if numOfDepartures >= 1:
-                
-                ugfx.string_box(0, -8, 128, 30, "BUS TIME", "Roboto_Black22", ugfx.BLACK, ugfx.justifyCenter)
-                ugfx.area(0, 33+(0)*65, 128, 55, ugfx.BLACK)
-                ugfx.flush()
-                
-                for x in range(0, numOfDepartures):
-                    print("number of returned cat. if more than 13, late bus",len(jsonData['Departure'][x]))
-                    if len(jsonData['Departure'][x]) >= 14:
-                        departureTime = jsonData['Departure'][x]['rtTime'] #real time accounts for delays
-                        print("Showing real time as this bus is late:",departureTime, "instead of:", jsonData['Departure'][x]['time'])
-                    else:
-                        departureTime = jsonData['Departure'][x]['time'] #scheduled times
-                        print("Showing scheduled time as this bus is on time:",departureTime)
-
-                    departureDir = jsonData['Departure'][x]['direction']
-                    departureLine = jsonData['Departure'][x]['Product']['line']
-                    #print ('"time":', departureTime)
-                    print ('"direction":', departureDir[x])
-                    print ('"line":', departureLine[x])
-
-                    departureTime = departureTime[:-3]
-                    departureDir = departureDir[:12]
-                    
-                    #ugfx.box(2, 35+x*65, 124, 55, ugfx.WHITE)
-
-                    #ugfx.fill_rounded_box(x, y, a, b, radius, colour)
-                    ugfx.fill_rounded_box (86, 38+x*65, 37, 20, -2, ugfx.WHITE)
-                    ugfx.string(86+2, 37+x*65, departureLine, "Roboto_Regular18", ugfx.BLACK)
-
-                    ugfx.string(4, 35+x*65, departureTime, "Roboto_Black22", ugfx.WHITE)
-                    ugfx.string(4, 35+28+x*65, departureDir, "Roboto_Regular18", ugfx.WHITE)
-
-                    if x+1 < numOfDepartures:
-                        ugfx.area(0, 33+(x+1)*65, 128, 55, ugfx.BLACK)
-                    else:
-                        ugfx.area(0, 33+(x+1)*65, 128, 55, ugfx.WHITE)
-
-                    ugfx.flush();
-        else:
-            print("No change in data, no screen update needed")
+# import wifi, woezel,system
+# wifi.connect()
+# wifi.wait()
+# woezel.install("luxPublicTransport")
+# system.reboot()

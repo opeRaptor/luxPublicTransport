@@ -5,4 +5,4 @@ Based on the travelplanner.mobiliteit.lu JSON api.
 
 Hatchery link: https://badge.team/projects/luxpublictransport/
 
-![timetable](https://github.com/opeRaptor/luxPublicTransport/blob/master/images/timetable.jpg)
+![timetable](https://github.com/opeRaptor/luxPublicTransport/blob/main/images/timetable.jpg)
