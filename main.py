@@ -1,4 +1,4 @@
-import ugfx, gc, wifi, badge, deepsleep, easydraw, system, time, display
+import ugfx, gc, wifi, badge, system, time, display, machine
 from time import sleep, localtime
 import urequests as requests
 
@@ -53,9 +53,9 @@ try:
         gc.collect()
 
         print("JSON loaded")
-        print(jsonData)
+        #print(jsonData)
 
-        print("length of response:", len(jsonData))
+        #print("length of response:", len(jsonData))
         #length = len(jsonData)
         #print(length)
 
@@ -70,7 +70,7 @@ try:
             
             for x in range(0, numOfDepartures):
                 print("|||||||||||||||||||||| ",x," ||||||||||||||||||||||")
-                print("Number of returned cat. if more than 13, late bus",len(jsonData['Departure'][x])) ###
+                print(len(jsonData['Departure'][x])," returned cat. if more than 13, it is a late bus") ###
                 
                 if len(jsonData['Departure'][x]) >= 14:
                     print("Storing departure time")
@@ -90,7 +90,7 @@ try:
                     departureTime[x] = jsonData['Departure'][x]['time'] #scheduled times
                     
                     departureTime[x] = departureTime[x][:-3]
-                    print("Showing scheduled time as this bus is on time:",departureTime)
+                    print("Showing scheduled time as this bus is on time:",departureTime[x])
 
                 name = jsonData['Departure'][x]['name']
                 name = name[:2]
@@ -110,7 +110,7 @@ try:
                 print("////////////////////// ",x," //////////////////////")
             
             ##################################### Update display? ###############################################
-            print("Is need data available compared to what is on the display now?")
+            print("Checking if new data available compared to what is on the display now")
             updateDisplay = False
             for x in range(0, numOfDepartures):
                 #check if new data is different currently displayed data
@@ -119,25 +119,28 @@ try:
                     departureTimeOld[x] = departureTime[x]
                     departureRealtimeOld[x] = departureRealtime[x]
                     updateDisplay = True
-                    print("Yes")
             ##################################### Update display! ###############################################
             
             if updateDisplay == True:     
-            print("Updating display")    
+                print("~~Updating display~~")    
+                
+                lut = ugfx.LUT_FASTER
+                
                 refreshCounter = refreshCounter + 1
-                if refreshCounter > 10: #full deep refresh after 10 normal prints
+                if refreshCounter >= 10: #full deep refresh after 10 normal prints
                     refreshCounter = 0
                     print("Full screen clear")
                     ugfx.clear(ugfx.WHITE)
-                    ugfx.flush(ugfx.LUT_FULL)
+                    lut = ugfx.LUT_FULL
+                else:
+                    lut = ugfx.LUT_FASTER
                 
+                ugfx.string_box(0, -8, 128, 30, "BUS TIME", "Roboto_Black22", ugfx.BLACK, ugfx.justifyCenter) #printing title
                 ugfx.area(0, 33+(0)*65, 128, 55, ugfx.BLACK)
-                ugfx.flush()
+                ugfx.flush(lut)
 
                 for x in range(0, numOfDepartures):
 
-                    ugfx.string_box(0, -8, 128, 30, "BUS TIME", "Roboto_Black22", ugfx.BLACK, ugfx.justifyCenter) #printing title
-                    
                     ugfx.fill_rounded_box (86, 38+x*65, 37, 20, -2, ugfx.WHITE) #printing white box for the line
                     ugfx.string_box(86, 36+x*65, 37, 20, departureLine[x], "Roboto_Regular18", ugfx.BLACK, ugfx.justifyCenter) #printing line in white box
                     #ugfx.string(86+2, 37+x*65, departureLine[x], "Roboto_Regular18", ugfx.BLACK)
@@ -157,7 +160,7 @@ try:
                     else:
                         ugfx.area(0, 33+(x+1)*65, 128, 55, ugfx.WHITE)
 
-                    ugfx.flush();
+                    ugfx.flush(ugfx.LUT_FASTER)
             else:
                 print("No change in data, no screen update needed")
         #####################################No data from API###############################################
@@ -166,11 +169,9 @@ try:
             refreshCounter = refreshCounter + 1
 
             numOfDepartures=0
-            ugfx.clear(ugfx.WHITE);
+            ugfx.clear(ugfx.WHITE)
             ugfx.string_box(0, -8, 128, 30, "BUS TIME", "Roboto_Black22", ugfx.BLACK, ugfx.justifyCenter)
-            ugfx.flush();
-                
-
+            ugfx.flush()
 
         #############################################################################################################################################################################################
 
@@ -187,22 +188,26 @@ try:
 except:
     print("################################################################################################################################################################")
     print("################################################################################################################################################################")
-    print("Something bad happened (blame lack of RAM), exceptions, we need a reboot")
+    print("Something bad happened (blame lack of RAM), exception, we need a reboot")
     print("################################################################################################################################################################")
     print("################################################################################################################################################################")
-    system.reboot()
+    #system.reboot()
+    machine.reset()
 
-################################################################################
-#make app run on boot
-#import machine
-#machine.nvs_setstr("system", "default_app", "luxPublicTransport")
+# ################################################################################
+# #make app run on boot
+# import machine
+# machine.nvs_setstr("system", "default_app", "luxPublicTransport")
 
-################################################################################
-#install app from store after pushing to Hatchery
-#Hatchery link: https://badge.team/projects/luxpublictransport/
+# ################################################################################
+# #install app from store after pushing to Hatchery
+# #Hatchery link: https://badge.team/projects/luxpublictransport/
 
-# import wifi, woezel,system
+# import wifi, woezel,machine
 # wifi.connect()
 # wifi.wait()
 # woezel.install("luxPublicTransport")
-# system.reboot()
+# machine.reset()
+
+# import machine
+# machine.reset()

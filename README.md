@@ -9,6 +9,7 @@ Hatchery link: https://badge.team/projects/luxpublictransport/
 ```python
 import machine
 machine.nvs_setstr("system", "default_app", "luxPublicTransport")
+machine.reset()
 ```
 ## Force load the dashboard when other app is set to run on boot: ##
 
@@ -17,10 +18,10 @@ machine.nvs_setstr("system", "default_app", "luxPublicTransport")
 
 ## Install app from store after pushing to Hatchery: ##
 ```python
-import wifi, woezel,system
+import wifi, woezel,machine
 wifi.connect()
 wifi.wait()
 woezel.install("luxPublicTransport")
-system.reboot()
+machine.reset()
 ```
 ![timetable](https://github.com/opeRaptor/luxPublicTransport/blob/main/images/timetable.jpg)
