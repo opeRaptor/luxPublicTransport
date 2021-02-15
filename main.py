@@ -208,15 +208,16 @@ try:
                 display.drawCircle(120, 12, 1,0,360,True,0x000000)
 
                 #ugfx.area(0, 45+(0)*65, 128, 55, ugfx.BLACK)
-                display.drawRect(0, 45+(0)*65, 128, 55,True,  0x000000)
+                #display.drawRect(0, 45+(0)*65, 128, 55,True,  0x000000)
+                display.drawPng(0, 45+(0)*65,"/lib/luxPublicTransport/busTablets.png")
                 display.flush(lut)
 
                 for x in range(0, numOfDepartures):
 
                     #ugfx.fill_rounded_box (86, 50+x*65, 37, 20, -2, ugfx.WHITE) #printing white box for the line
-                    display.drawRect(86, 50+x*65, 37, 20,True,  0xFFFFFF)
+                    #display.drawRect(86, 50+x*65, 37, 20,True,  0xFFFFFF)
                     #ugfx.string_box(86, 48+x*65, 37, 20, departureLine[x], "Roboto_Regular18", ugfx.BLACK, ugfx.justifyCenter) #printing line in white box
-                    display.drawText(86+2, 50+(x*65)+16-int(display.getTextWidth(departureLine[x],"Roboto_Regular18")/2), departureLine[x], 0x000000, "Roboto_Regular18")
+                    display.drawText(86+2, 50+(x*65)+15-int(display.getTextWidth(departureLine[x],"Roboto_Regular18")/2), departureLine[x], 0x000000, "Roboto_Regular18")
                     #ugfx.string(86+2, 37+x*65, departureLine[x], "Roboto_Regular18", ugfx.BLACK)
 
                     if departureRealtime[x] == None: #if realtime (if bus is late) is empty print scheduled time
@@ -230,12 +231,13 @@ try:
                         display.drawCircle(76, 59+x*65, 3,0,360,True,0xffffff)
                     
                     #ugfx.string(4, 45+28+x*65, departureDir[x], "Roboto_Regular18", ugfx.WHITE) # print direction
-                    display.drawText(4, 45+28+x*65, departureDir[x], 0xFFFFFF, "Roboto_Regular18")
+                    display.drawText(4, 45+30+x*65, departureDir[x], 0xFFFFFF, "Roboto_Regular18")
                     
 
                     if x+1 < numOfDepartures:
                         #ugfx.area(0, 45+(x+1)*65, 128, 55, ugfx.BLACK)
-                        display.drawRect(0, 45+(x+1)*65, 128, 55,True,  0x000000)
+                        #display.drawRect(0, 45+(x+1)*65, 128, 55,True,  0x000000)
+                        display.drawPng(0, 45+(x+1)*65,"/lib/luxPublicTransport/busTablets.png")
                     else:
                         #ugfx.area(0, 45+(x+1)*65, 128, 55, ugfx.WHITE)
                         display.drawRect(0, 45+(x+1)*65, 128, 55,True,  0xFFFFFF)
@@ -256,7 +258,7 @@ try:
             display.drawPng(0,0,"/lib/luxPublicTransport/busBoardV2.png")
             
             display.drawText(106-int(display.getTextWidth(temp,"Roboto_Regular18")/2), 10, temp, 0xFFFFFF, "Roboto_Regular18")
-            display.drawCircle(120, 12, 2,0,360,True,0xffffff)
+            display.drawCircle(120, 12, 2,0,360,True,0xFFFFFF)
             display.drawCircle(120, 12, 1,0,360,True,0x000000)
             display.flush()
 
@@ -287,14 +289,14 @@ except:
 # machine.nvs_setstr("system", "default_app", "luxPublicTransport")
 
 # # ################################################################################
-# # #install app from store after pushing to Hatchery
-# # #Hatchery link: https://badge.team/projects/luxpublictransport/
+# #install app from store after pushing to Hatchery
+# #Hatchery link: https://badge.team/projects/luxpublictransport/
 
-# import wifi, woezel,machine
-# wifi.connect()
-# wifi.wait()
-# woezel.install("luxPublicTransport")
-# machine.reset()
+import wifi, woezel,machine
+wifi.connect()
+wifi.wait()
+woezel.install("luxPublicTransport")
+machine.reset()
 
 
 
